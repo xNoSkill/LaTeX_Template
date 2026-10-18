@@ -1,0 +1,230 @@
+% !TeX root = 01_main.tex
+% !TEX program = xelatex
+% !BIB program = biber
+
+\documentclass[12pt, a4paper]{report}	
+% Formatierungen und Packages
+\input{02_packages}
+%\excludecomment{figure} % damit werden auf einem Schlag alle Abbildungen ausgeblendet
+%\usepackage{showframe}
+%\usepackage{layout}
+\setmainfont{Arial}
+%\setlength{\bibhang}{0pt} % Einzug im Quellenverzeichnis deaktivieren
+\DeclareDelimFormat{labelnamepunct}{\addcolon\space}
+\DeclareFieldFormat{url}{\url{#1}}
+\DeclareBibliographyDriver{online}{%
+    \usebibmacro{bibindex}%
+    \usebibmacro{begentry}%
+    \printnames{author}%
+    \setunit{\addcolon\space}%
+    \printfield{title}%
+    \setunit{\addperiod\newline}%
+    \printtext{In:\space}%
+    \printfield{url}%
+    \iffieldundef{urlyear}
+    {}
+    {~\mkbibparens{%
+     \printfield{urlday}.%
+     \printfield{urlmonth}.%
+     \printfield{urlyear}%
+   }}%
+   \nopunct
+    \usebibmacro{finentry}%
+}
+\DeclareBibliographyDriver{unpublished}{%
+    \usebibmacro{bibindex}%
+    \usebibmacro{begentry}%
+    \printnames{author}%
+    \setunit{\addcolon\space}%
+    \printfield{title}%
+    \setunit{\addcomma\space}%
+    \printdate
+    \printtext{
+    \mkbibparens{%
+    \printfield{note}%
+    }
+    }%
+    \nopunct
+    \usebibmacro{finentry}%
+}
+% \setlength{\headheight}{20pt} % Fehler hat gesagt Headheight größer
+% \addtolength{\topmargin}{-5pt} % Befehl ist um Text weiter hoch zu schieben wegen \headheight{17.01598pt} (es müsste eigentlich 15pt sein)
+
+\setstretch{1.3}
+\titleformat{\chapter}[hang]
+    {\fontsize{14pt}{22pt}\selectfont\bfseries} % Format
+    {\thechapter.} % Label
+    {1em} %Abstand
+    {} % <Vor-Code>
+\titleformat{\section}[hang]
+    {\fontsize{14pt}{18pt}\bfseries} % Format
+    {\thesection} % Label
+    {1em} %Abstand
+    {} % <Vor-Code>
+\titleformat{\subsection}[hang]
+    {\fontsize{12pt}{18pt}\bfseries} % Format
+    {\thesubsection} % Label
+    {1em} %Abstand
+    {} % <Vor-Code>
+\titlespacing*{\chapter}{0pt}{-26pt}{12pt}
+\DeclareNameFormat{nurNachname}
+  {\MakeUppercase{\namepartfamily}}
+  
+\DeclareCiteCommand{\footdirekt}[\mkbibfootnote] % Zitat direkt
+  {}
+  { \printnames[nurNachname]{author},
+    \printfield{year},~\printfield{postnote}\nopunct}
+  {}
+  {}
+\DeclareCiteCommand{\footvgl}[\mkbibfootnote] % Vergleich Zitat
+  {}
+  { vgl. \printnames[nurNachname]{author}, \printfield{year},~\printfield{postnote}\nopunct}
+  {}
+  {}
+\DeclareCiteCommand{\footonline}[\mkbibfootnote]
+  {}
+  {
+    online:
+    \printnames{author},
+    \printdate,
+    \mkbibparens{%
+      \printfield{urlday}.%
+      \printfield{urlmonth}.%
+      \printfield{urlyear}%
+    }%
+    \nopunct
+  }
+  {}
+  {}
+\DeclareCiteCommand{\footunpub}[\mkbibfootnote] % Vergleich Zitat
+  {}
+  { vgl. unveröffentlicht: 
+  \printnames[nurNachname]{author}, 
+  \printdate
+  \nopunct
+  }%
+  {}
+  {}
+\newcommand{\abschnitt}[1]{%
+  \paragraph{#1}\mbox{}\par
+}
+\counterwithout{figure}{chapter} % Kapitelnummer bei Abbildungen entfernen, fortlaufende Nummerierung
+\counterwithout{table}{chapter} % Kapitelnummer bei Tabellen entfernen, fortlaufende Nummerierung
+\counterwithout{footnote}{chapter} % fortlaufende Nummerierung der Fußnoten bei Kapitelwechsel, sonst Reset bei Kapitelwechseö
+\captionsetup[figure]{
+    labelfont=bf,
+    labelsep=space,
+    justification=raggedright,
+    singlelinecheck=false,
+    format=hang
+}
+\captionsetup[table]{
+    labelfont=bf,
+    labelsep=space,
+    justification=raggedright,
+    singlelinecheck=false,
+    format=hang
+}
+\newcommand{\fullref}[1]{Tabelle \ref{#1} \enquote{\nameref{#1}}}
+\addbibresource{literatur.bib}
+\begin{document}
+%\layout
+\setlength{\parindent}{0pt} % Einzug nach Bildern im gesamten Dokument deaktivieren
+\renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}} % Punkte im Inhaltsverzeichnis
+\setlength{\cftbeforetoctitleskip}{0pt} % Höhe vor Inhaltsverzeichnis
+\setlength{\cftbeforeloftitleskip}{0pt} % Höhe vor Bilderverzeichnis
+\setlength{\cftbeforelottitleskip}{0pt} % Höhe vor Tabellenverzeichnis
+\setlength{\cftafterloftitleskip}{12pt} % Höhe nach Abbildungsverzeichnis
+\setlength{\cftafterlottitleskip}{12pt} % Höhe nach Tabellenverzeichnis
+\setlength{\cftaftertoctitleskip}{12pt} % Höhe nach Inhaltsverzeichnis
+\renewcommand{\cfttoctitlefont}{\Large\bfseries} % Größe Überschrift Inhaltsverzeichnis
+\renewcommand{\cftloftitlefont}{\Large\bfseries} % Größe Überschrift Abbildungsverzeichnis
+\renewcommand{\cftlottitlefont}{\Large\bfseries} % Größe Überschrift Tabellenverzeichnis
+\fancypagestyle{projektarbeit}{
+    \fancyhf{} % Kopf- und Fußzeile leeren
+    \fancyhead[R]{\colorbox{yellow}{Vorname Nachname}}
+    \fancyhead[L]{\nouppercase{\leftmark}}
+    \fancyfoot[R]{\thepage}
+}
+\fancypagestyle{plain}{ % Das ist für die Kapitelanfangsseiten
+    \fancyhf{} % Kopf- und Fußzeile leeren
+    \fancyhead[R]{\colorbox{yellow}{Vorname Nachname}}
+    \fancyhead[L]{\nouppercase{\leftmark}}
+    \fancyfoot[R]{\thepage}
+}
+\fancypagestyle{anhang}{
+    \fancyhf{} % Kopf- und Fußzeile leeren
+    \fancyhead[R]{Anhang \thechapter}
+    \fancyhead[L]{\nouppercase{\leftmark}}
+    \fancyfoot[R]{\thepage}
+}
+\renewcommand{\chaptermark}[1]{% Kommentar bis zum Zeilenende“. Hier werden sie verwendet, um unerwünschte Leerzeichen zu verhindern.
+  \markboth{\thechapter.\ #1}{}%
+} % Entfernen des Wort Kapitels in der Kopfzeile
+% Verzeichnisse
+\pagenumbering{Roman}
+\input{../02_Kapitel/01_titlepage} % Titelseite
+    \clearpage
+\begin{enumerate}[nosep]
+	\item Hier muss der Themenvorschlag für die Projektarbeit eingebunden werden, direkt pdf als 02\_Themenblatt in 02\_Kapitel speichern bitte
+	\item siehe Quelltext 01\_main.tex: Zeile 170
+	\item siehe nächste Zeile im Quelltext  \verb|\includepdf|
+	\item nach einfügen der pdf kann dieses enumerate entfernt werden
+\end{enumerate}
+%\includepdf[pages=1]{../02_Kapitel/02_Themenblatt} % Hier Themenvorschlag für die Projektarbeit einbinden
+\clearpage
+\pagestyle{projektarbeit}
+\tableofcontents
+    \clearpage
+\listoffigures
+    \clearpage
+\listoftables
+    \clearpage
+\chapter*{\vspace{12pt}Abkürzungsverzeichnis}
+\addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}
+    \vspace{12pt}
+\begin{acronym}[Abkürzunggg] % Länge dieses Strings 'Abkürzunggg' legt Platz zwischen Acro und Langform fest
+	\acro{Beispielacro}{Ausgeschriebene Abkürzung}
+\end{acronym}
+\clearpage
+\pagenumbering{arabic} % Arabische Numerierung der Seitenzahlen
+
+
+%Fließtext
+\input{../02_Kapitel/03_Einleitung}
+    \clearpage
+\input{../02_Kapitel/04_howto}
+    \clearpage
+
+% Quellen und Anhänge
+\printbibliography[title={Quellenverzeichnis}] % Quellenverzeichnis ausgeben
+\addcontentsline{toc}{chapter}{Quellenverzeichnis} % Quellenverzeichnis zu Gliederung hinzufügen
+\appendix % ab hier werden kapitel mit buchstaben nummeriert
+\renewcommand{\thechapter}{\arabic{chapter}}
+\chapter*{Anhangsverzeichnis}
+\addcontentsline{toc}{chapter}{Anhangsverzeichnis}
+\begin{table}[htbp]
+    \renewcommand{\arraystretch}{1.5}
+    \begin{threeparttable}
+        \begin{tabular}{@{}p{2.5cm}l}
+            \hyperref[anh:default]{Anhang 1} & \hyperref[anh:default]{default} \\
+        \end{tabular}
+        \label{tab:Test}
+    \end{threeparttable}
+\end{table}
+\titleformat{\chapter}[hang]
+    {\fontsize{14pt}{22pt}\selectfont\bfseries} % Format
+    {Anhang \thechapter} % Label
+    {1em} %Abstand
+    {} % <Vor-Code>
+\renewcommand{\chaptermark}[1]{% Kommentar bis zum Zeilenende“. Hier werden sie verwendet, um unerwünschte Leerzeichen zu verhindern.
+  \markboth{#1}{}%
+} % Entfernen des Wort Kapitels in der Kopfzeile
+
+% Ab hier können Anhänge eingefügt werden
+\pagestyle{anhang}
+\clearpage
+\setcounter{page}{1}
+\input{../04_Anhang/01_default}
+    \clearpage
+\end{document}

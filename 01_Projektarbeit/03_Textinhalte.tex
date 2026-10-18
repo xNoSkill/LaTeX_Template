@@ -1,0 +1,148 @@
+% !TeX root = ../01_Projektarbeit/01_main.tex
+% !TEX program = xelatex
+\documentclass[12pt, a4paper]{report}
+% Formatierungen und Packages
+\input{02_packages}
+\DeclareDelimFormat{labelnamepunct}{\addcolon\space}
+\DeclareFieldFormat{url}{\url{#1}}
+\DeclareBibliographyDriver{online}{%
+    \usebibmacro{bibindex}%
+    \usebibmacro{begentry}%
+    \printnames{author}%
+    \setunit{\addcolon\space}%
+    \printfield{title}%
+    \setunit{\addperiod\space}%
+    \printtext{In:\space}%
+    \printfield{url}%
+    \iffieldundef{urlyear}
+    {}
+    {~\mkbibparens{%
+     \printfield{urlday}.%
+     \printfield{urlmonth}.%
+     \printfield{urlyear}%
+   }}%
+    \usebibmacro{finentry}%
+}
+%\setmainfont{Arial}
+\setlength{\headheight}{17.01598pt} % Fehler hat gesagt Headheight größer
+\addtolength{\topmargin}{-2.01598pt} % Befehl ist um Text weiter hoch zu schieben wegen \headheight{17.01598pt} (es müsste eigentlich 15pt sein
+\setstretch{1.3}
+\titleformat{\chapter}[hang]
+    {\fontsize{14pt}{22pt}\selectfont\bfseries} % Format
+    {\thechapter.} % Label
+    {1em} %Abstand
+    {} % <Vor-Code>
+\titleformat{\section}[hang]
+    {\fontsize{14pt}{18pt}\bfseries} % Format
+    {\thesection} % Label
+    {1em} %Abstand
+    {} % <Vor-Code>
+\titleformat{\subsection}[hang]
+    {\fontsize{12pt}{18pt}\bfseries} % Format
+    {\thesubsection} % Label
+    {1em} %Abstand
+    {} % <Vor-Code>
+\titlespacing*{\chapter}{0pt}{-26pt}{12pt}
+\DeclareNameFormat{nurNachname}
+  {\MakeUppercase{\namepartfamily}}
+  
+\DeclareCiteCommand{\footdirekt}[\mkbibfootnote] % Zitat direkt
+  {}
+  { \printnames[nurNachname]{author},
+    \printfield{year},~\printfield{postnote}\nopunct}
+  {}
+  {}
+\DeclareCiteCommand{\footvgl}[\mkbibfootnote] % Vergleich Zitat
+  {}
+  { vgl. \printnames[nurNachname]{author}, \printfield{year},~\printfield{postnote}\nopunct}
+  {}
+  {}
+\DeclareCiteCommand{\footonline}[\mkbibfootnote]
+  {}
+  {
+    online:
+    \printnames{author},
+    \printdate,
+    \mkbibparens{%
+      \printfield{urlday}.%
+      \printfield{urlmonth}.%
+      \printfield{urlyear}%
+    }%
+    \nopunct
+  }
+  {}
+  {}
+\newcommand{\abschnitt}[1]{%
+  \paragraph{#1}\mbox{}\par
+}
+\counterwithout{figure}{chapter} % Kapitelnummer bei Abbildungen entfernen, fortlaufende Nummerierung
+\counterwithout{table}{chapter} % Kapitelnummer bei Tabellen entfernen, fortlaufende Nummerierung
+%\captionsetup[figure]{ Ausgeklammert da sonst ein Fehler kommt wenn man es nicht verwendet
+%    labelfont=bf,
+%    labelsep=space,
+%   justification=raggedright,
+%    singlelinecheck=false,
+%    format=hang
+%}
+\addbibresource{literatur.bib}
+\begin{document}
+\setlength{\parindent}{0pt} % Einzug nach Bildern im gesamten Dokument deaktivieren
+\fancypagestyle{projektarbeit}{
+    \fancyhf{} % Kopf- und Fußzeile leeren
+    \fancyhead[R]{Paul Lorenz}
+    \fancyhead[L]{\nouppercase{Kopie der Textinhalte aus Internetquellen}}
+    \fancyfoot[R]{\thepage}
+}
+\fancypagestyle{plain}{
+    \fancyhf{} % Kopf- und Fußzeile leeren
+    \fancyhead[R]{Paul Lorenz}
+    \fancyhead[L]{\nouppercase{\leftmark}}
+    \fancyfoot[R]{Seite \thepage}
+}
+\renewcommand{\chaptermark}[1]{% Kommentar bis zum Zeilenende“. Hier werden sie verwendet, um unerwünschte Leerzeichen zu verhindern.
+  \markboth{\thechapter.\ #1}{}%
+} % Entfernen des Wort Kapitels in der Kopfzeile
+\pagestyle{projektarbeit}
+\pagenumbering{arabic} % Arabische Numerierung der Seitenzahlen
+\abschnitt{Kopie der Textinhalte aus Internetquellen}
+\vspace{\baselineskip}
+\fullcite{SAP-Geschichte}
+
+{\small
+\enquote{Am 1. April 1972 gründen fünf ehemalige IBM-Mitarbeiter das Unternehmen „Systemanalyse Programmentwicklung“. Die Vision von Dietmar Hopp, Hasso Plattner, Claus Wellenreuther, Klaus Tschira und Hans-Werner Hector: Standardsoftware für Unternehmen zu entwickeln, die alle betrieblichen Abläufe integriert und es ermöglicht, Daten in Echtzeit zu verarbeiten.}
+\vspace{\baselineskip} % Das erzeugt eine Leerzeile
+}
+
+\fullcite{SAP-Erklaerung}
+
+{\small
+\enquote{Ein ERP-System besteht aus integrierten Modullösungen oder Geschäftsanwendungen, die sich eine gemeinsame Datenbank teilen, durch die sie miteinander verbunden sind und miteinander kommunizieren können. Jedes ERP-Modul ist üblicherweise auf einen Geschäftsbereich ausgerichtet. Sie greifen aber ineinander und nutzen dieselben Daten, um die Anforderungen des Unternehmens zu erfüllen.
+
+Unternehmen wählen die gewünschte Modullösung aus – z. B. Finanzen, Logistik, Beschaffung und Personalwesen – und können sie je nach Bedarf ergänzen und skalieren. ERP-Systeme können auch branchenspezifische Anforderungen abdecken, entweder als Teil der Kernfunktionen des Systems oder durch Anwendungserweiterungen, die sich in die Modulsuite einfügen.}
+\vspace{\baselineskip} % Das erzeugt eine Leerzeile
+}
+
+\fullcite{SAP-PCo}
+
+{\small
+\enquote{Mit PCo können Sie automatisch oder auf Anforderung Datenpunkte (Tags) und Ereignisse aus den angeschlossenen Quellsystemen in der Produktion empfangen und diese an die angeschlossenen SAP-Systeme weitergeben. Weiterhin können Sie über PCo OPC UA-Methodenaufrufe absetzen, entgegennehmen und verarbeiten und somit auch komplexe Koordinierungsaufgaben im Umfeld von Maschinensteuerungen (SPS) abbilden. Der PCo Web-Server erweitert diese Möglichkeiten und erlaubt die Bereitstellung von selbst-definierten Methoden, die als Web-Service-Operationen aufgerufen werden können.}
+\vspace{\baselineskip} % Das erzeugt eine Leerzeile
+}
+
+\fullcite{S/4HANA}
+
+{\small
+\enquote{SAP S/4HANA ist eine Enterprise-Resource-Planning-Lösung, die auf einer \linebreak
+SAP-HANA-Datenbank basiert und einen On-Premise-Betrieb ermöglicht. Das bedeutet, dass Sie als Kunde sich um die Installation, das Upgrade und den Betrieb der Software in der Infrastruktur Ihres Unternehmens kümmern.}
+}
+
+\fullcite{Kommentar}
+
+{\small
+\enquote{Die Anwendung des neuen Algorithmus wird uns dabei helfen den MES-Implementierungsprozess weiter zu standardisieren. Daraus resultiert eine schnelle und effiziente Anbindung neuer Anlagen und somit eine Optimierung des gesamten Rollout-Prozesses.}}
+
+
+\end{document}
+
+
+
