@@ -163,8 +163,10 @@
 } % Entfernen des Wort Kapitels in der Kopfzeile
 % Verzeichnisse
 \pagenumbering{Roman}
-\input{../02_Kapitel/01_titlepage} % Titelseite
+\begin{titlepage}
+	\input{../02_Kapitel/01_titlepage} % Titelseite
     \clearpage
+\end{titlepage}
 \begin{enumerate}[nosep]
 	\item Hier muss der Themenvorschlag für die Projektarbeit eingebunden werden, direkt pdf als 02\_Themenblatt in 02\_Kapitel speichern bitte
 	\item siehe Quelltext 01\_main.tex: Zeile 170
